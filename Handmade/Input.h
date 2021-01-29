@@ -1,3 +1,4 @@
+#pragma once
 #ifndef INPUT_H
 #define INPUT_H
 
@@ -301,7 +302,7 @@
 //======================================================================================================
 
 #include "Vector.h"
-
+#include "AABB.h"
 class Input
 {
 
@@ -323,6 +324,8 @@ public:
 
 	bool IsWindowClosed() const;
 	
+	bool IsMouseColliding(const AABB& bound);
+
 	bool IsKeyPressed() const;
 	bool IsKeyPressed(int keyCode) const;
 	bool IsModifierPressed(int modifier_1, int modifier_2 = HM_MOD_NONE) const;

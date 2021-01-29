@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Bread.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="EndState.h" />
     <ClInclude Include="Game.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Music.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Sound.h" />
@@ -161,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bread.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EndState.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -170,6 +173,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Sound.cpp" />

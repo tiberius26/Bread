@@ -207,35 +207,37 @@ void Sprite::Update(int deltaTime)
 //======================================================================================================
 void Sprite::Draw(int positionX, int positionY, double angle, FlipType flipType)
 {
-	//if animation is set to run, then render the
-	//sprite using the internal blitting function
-	if (!m_isAnimationDead)
-	{
-		//variables to store rectangular dimensions for the source 
-		//sprite and destination portion of the screen to render to 
-		SDL_Rect src;
-		SDL_Rect dst;
+	if (m_IsEnabled) {
+		//if animation is set to run, then render the
+		//sprite using the internal blitting function
+		if (!m_isAnimationDead)
+		{
+			//variables to store rectangular dimensions for the source 
+			//sprite and destination portion of the screen to render to 
+			SDL_Rect src;
+			SDL_Rect dst;
 
-		//use modulo and divide with the image index to get exact cel block xy coordinates
-		//to 'cut out' and assign all of this as well as width and height to the source rect
-		src.x = (m_imageCel % m_imageDimension.x) * m_celDimension.x;
-		src.y = (m_imageCel / m_imageDimension.x) * m_celDimension.y;
-		src.w = m_celDimension.x;
-		src.h = m_celDimension.y;
+			//use modulo and divide with the image index to get exact cel block xy coordinates
+			//to 'cut out' and assign all of this as well as width and height to the source rect
+			src.x = (m_imageCel % m_imageDimension.x) * m_celDimension.x;
+			src.y = (m_imageCel / m_imageDimension.x) * m_celDimension.y;
+			src.w = m_celDimension.x;
+			src.h = m_celDimension.y;
 
-		//assign dimension of rectangular block to which sprite will be rendered to on screen
-		dst.x = positionX;
-		dst.y = positionY;
-		dst.w = m_spriteDimension.x;
-		dst.h = m_spriteDimension.y;
+			//assign dimension of rectangular block to which sprite will be rendered to on screen
+			dst.x = positionX;
+			dst.y = positionY;
+			dst.w = m_spriteDimension.x;
+			dst.h = m_spriteDimension.y;
 
-		//if sprite needs to be rotated, use the centre of the sprite as its centre of rotation
-		SDL_Point centrePoint;
-		centrePoint.x = m_spriteDimension.x / 2;
-		centrePoint.y = m_spriteDimension.y / 2;
+			//if sprite needs to be rotated, use the centre of the sprite as its centre of rotation
+			SDL_Point centrePoint;
+			centrePoint.x = m_spriteDimension.x / 2;
+			centrePoint.y = m_spriteDimension.y / 2;
 
-		//render the sprite using all values passed and determined above
-		SDL_RenderCopyEx(Screen::Instance()->GetRenderer(),
-			             m_image, &src, &dst, angle, &centrePoint, static_cast<SDL_RendererFlip>(flipType));
+			//render the sprite using all values passed and determined above
+			SDL_RenderCopyEx(Screen::Instance()->GetRenderer(),
+				m_image, &src, &dst, angle, &centrePoint, static_cast<SDL_RendererFlip>(flipType));
+		}
 	}
 }

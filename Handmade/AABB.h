@@ -37,6 +37,8 @@ public:
 	void SetPosition(int x, int y);
 	void SetDimension(int width, int height);
 	
+	void Disable() { m_IsEnabled = false; }
+	void Enable() { m_IsEnabled = true; }
 public:
 
 	void Update();
@@ -48,6 +50,8 @@ private:
 	Vector<int> m_max;
 	Vector<int> m_position;
 	Vector<int> m_dimension;
+
+	bool m_IsEnabled;
 	
 };
 

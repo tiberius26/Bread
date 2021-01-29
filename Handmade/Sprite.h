@@ -70,6 +70,8 @@ public:
 	void Draw(int positionX = 0, int positionY = 0, double angle = 0.0, 
 		      FlipType flipType = FlipType::NO_FLIP);
 
+	void Disable() { m_IsEnabled = false; }
+	void Enable() { m_IsEnabled = true; }
 private:
 
 	static std::map<std::string, SDL_Texture*>* s_images;
@@ -83,6 +85,8 @@ private:
 	bool m_isAnimationDead;
 	bool m_isAnimationLooping;
 	bool m_isAnimationLoopFinal;
+
+	bool m_IsEnabled;
 
 	SDL_Texture* m_image;               
 	SDL_Point m_celDimension;           

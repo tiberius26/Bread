@@ -52,6 +52,22 @@ bool Input::IsWindowClosed() const
 	return m_isWindowClosed;
 }
 //======================================================================================================
+
+bool Input::IsMouseColliding(const AABB& bound)
+{
+
+	//create a temporary bounding box to represent mouse cursor
+	AABB tempBound;
+
+	//set mouse cursor bounds of 1x1 based on mouse position
+	tempBound.SetPosition((int)m_mousePosition.x, (int)(m_mousePosition.y));
+	tempBound.SetDimension(1, 1);
+
+	//return flag based on if mouse collides with bound
+	return tempBound.IsColliding(bound);
+
+}
+//======================================================================================================
 bool Input::IsKeyPressed() const
 {
 	return m_isKeyPressed;
