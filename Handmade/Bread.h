@@ -2,6 +2,7 @@
 #include <array>
 #include "Sprite.h"
 #include "AABB.h"
+
 class Bread
 {
 public:
@@ -12,12 +13,18 @@ public:
 
 	bool MarkBread() { m_Marked = true; };
 	void IncrementCounter();
-	bool Clicked(const AABB& bound) { return m_Collision.IsColliding(bound); };
 	void Draw();
 	void Initialize();
+	void UpdataData(int X, int Y, int BreadIdentity);
+
+	void Unload();
 private:
-	int m_Counter;
-	bool m_Marked;
+	int m_Counter = 0;
+	int m_Identity = 0;
+	int m_PositionX = 0;
+	int m_PositionY = 0;
+	bool m_Marked = false;
+
 	Sprite m_NormalSkin; //skin when bread is not made
 	Sprite m_MarkedSkin; //skin when bread is made
 	AABB m_Collision;

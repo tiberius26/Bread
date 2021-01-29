@@ -12,7 +12,7 @@ Background::Background(const std::string& imageFilename, const std::string& audi
 	m_image.SetImage(imageFilename);
 	m_image.SetSpriteDimension(resolution.x, resolution.y);
 	m_image.SetImageDimension(1, 1, resolution.x, resolution.y);
-
+	m_image.Enable();
 	m_music.Load(audioFilename, audioFilename);
 	m_music.SetMusic(audioFilename);
 

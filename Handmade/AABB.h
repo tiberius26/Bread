@@ -51,7 +51,7 @@ private:
 	Vector<int> m_position;
 	Vector<int> m_dimension;
 
-	bool m_IsEnabled;
+	bool m_IsEnabled = false;
 	
 };
 

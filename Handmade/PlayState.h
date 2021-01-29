@@ -33,6 +33,7 @@
 #include "GameState.h"
 #include "TCPManager.h"
 #include <thread>
+#include "Player.h"
 class PlayState : public GameState
 {
 
@@ -56,6 +57,12 @@ private:
 	TCPManager* m_MyManager;
 	std::string m_ServerMessage;
 	std::thread m_RecievingThread;
+
+	Player* m_Player = nullptr;
+	bool m_MyTurnToGuess = false;
+
+	bool IsNumber(const std::string& StringToCheck);
+	bool m_SecretNumberRecieved;
 };
 
 #endif

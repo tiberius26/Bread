@@ -80,6 +80,7 @@ void Sprite::Unload(const std::string& mapIndex)
 //======================================================================================================
 Sprite::Sprite()
 {
+	m_IsEnabled = true;
 	m_imageCel = 0;
 	m_animationVelocity = 0.0f;
 	

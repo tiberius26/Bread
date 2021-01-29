@@ -324,7 +324,6 @@ public:
 
 	bool IsWindowClosed() const;
 	
-	bool IsMouseColliding(const AABB& bound);
 
 	bool IsKeyPressed() const;
 	bool IsKeyPressed(int keyCode) const;

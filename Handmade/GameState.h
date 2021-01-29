@@ -42,6 +42,7 @@ public:
 	virtual bool Draw() = 0;
 	virtual void OnExit() = 0;
 
+	bool m_Win = false;
 };
 
 #endif

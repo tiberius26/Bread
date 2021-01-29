@@ -27,7 +27,7 @@ bool TCPManager::OpenSocket()
 		Debugger->Log("Error opening socket for connection", Debug::ErrorCode::FAILURE);
 		return false;
 	}
-	Debugger->Log("Clent Created", Debug::ErrorCode::SUCCESS);
+	Debugger->Log("Client Created", Debug::ErrorCode::SUCCESS);
 	return true;
 }
 

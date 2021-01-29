@@ -11,8 +11,15 @@ EndState::EndState()
 bool EndState::OnEnter()
 {
 	m_menu = new MainMenu;
-	m_image = new Background("Assets/Images/End_1280x720.png", "Assets/Music/Glory.ogg");
-	m_menu->SetMenuText("Play again");
+	if (m_Win) 
+	{
+		m_image = new Background("Assets/Images/Win.jpg", "Assets/Music/Glory.ogg");
+	}
+	else 
+	{
+		m_image = new Background("Assets/Images/GameOver.jpg", "Assets/Music/Glory.ogg");
+
+	}
 	m_menu->SetMenuText("Quit game");
 	return true;
 }
@@ -21,12 +28,6 @@ GameState* EndState::Update(int deltaTime)
 {
 	m_image->PlayMusic();
 	m_menu->Update(deltaTime);
-
-	if (m_menu->GetMenuOption() == static_cast<int>(MenuOption::PLAY))
-	{
-		m_image->StopMusic();
-		return new PlayState;
-	}
 
 	if (m_menu->GetMenuOption() == static_cast<int>(MenuOption::QUIT))
 	{
