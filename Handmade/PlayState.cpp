@@ -17,10 +17,10 @@ PlayState::PlayState()
 //======================================================================================================
 bool PlayState::OnEnter()
 {
-	m_Player = new Player;
+	m_Player = std::make_shared<Player>();
 	m_Player->Initialize();
-	m_image = new Background("Assets/Images/BG.png", "Assets/Music/Aircord.ogg");	
-	m_MyManager = new TCPManager;
+	m_image = std::make_shared<Background>("Assets/Images/BG.png", "Assets/Music/Aircord.ogg");
+	m_MyManager = std::make_shared <TCPManager>();
 	m_MyManager->Initialize("127.0.0.1", 1234);
 	m_MyManager->OpenSocket();
 	m_RecievingThread = std::thread(&PlayState::ServerMessageRecieving, this); // look at recieve in chatapp, the one in chatting takes no string, the one in TCP does
@@ -28,9 +28,9 @@ bool PlayState::OnEnter()
 	return true;
 }
 //======================================================================================================
-void PlayState::ServerMessageRecieving() 
+void PlayState::ServerMessageRecieving()
 {
-	while (m_ServerMessage != "end") 
+	while (m_ServerMessage != "end")
 	{
 		m_MyManager->Receive(m_ServerMessage);
 	}
@@ -44,6 +44,12 @@ bool PlayState::IsNumber(const std::string& StringToCheck)
 //======================================================================================================
 GameState* PlayState::Update(int deltaTime)
 {
+	if (m_ServerMessage == "end")
+	{
+		//std::cout << "Hit"<<std::endl;
+		m_image->StopMusic();
+		return new EndState;
+	}
 	m_image->PlayMusic();
 	//m_MyManager->Send("Test");
 	if (Input::Instance()->IsKeyPressed(HM_KEY_M))
@@ -56,29 +62,26 @@ GameState* PlayState::Update(int deltaTime)
 	{
 		m_image->StopMusic();
 		m_MyManager->Send("end");
-		return new EndState;
-	}
-	
-	if (m_ServerMessage == "end")
-	{
-		//std::cout << "Hit"<<std::endl;
-		m_image->StopMusic();
+		m_ServerMessage = "end";
 		return new EndState;
 	}
 
-	if (m_Player->CheckWin()) 
+
+
+	if (m_Player->CheckWin())
 	{
 		m_image->StopMusic();
 		m_MyManager->Send("end");
+		m_ServerMessage = "end";
 		return new EndState;
 	}
 
 
-	
+
 	std::string::size_type EqualFind = m_ServerMessage.find("=");
 	std::string::size_type CollomFind = m_ServerMessage.find(":");
 	std::string WhoItWasSentTo = m_ServerMessage.substr(0, EqualFind);
-	if (CollomFind != std::string::npos) 
+	if (CollomFind != std::string::npos)
 	{
 		m_WhoSentIt = m_ServerMessage.substr(EqualFind + 1, IDSIZE); // 5 = length of user1/user2 name
 	}
@@ -94,13 +97,13 @@ GameState* PlayState::Update(int deltaTime)
 		}
 		else if (m_Message == "User2")
 		{
-			m_Player->SetIdentity("User2"); 
+			m_Player->SetIdentity("User2");
 			m_MyTurnToGuess = false;
 			m_IsPlayerAssigned = true;
 		}
-		
+
 	}
-	else 
+	else
 	{
 		m_Message = m_ServerMessage.substr(CollomFind + 1, m_ServerMessage.size() - (CollomFind + 1));
 		//logic for getting player 1 recieved messages
@@ -174,7 +177,13 @@ GameState* PlayState::Update(int deltaTime)
 			}
 		}
 	}
-
+	if (m_Message == "end")
+	{
+		m_ServerMessage = "end";
+		//std::cout << "Hit"<<std::endl;
+		m_image->StopMusic();
+		return new EndState;
+	}
 
 
 
@@ -201,22 +210,18 @@ bool PlayState::Draw()
 			(*it)->Draw();
 		}
 	}
-	
+
 	return true;
 }
 //======================================================================================================
 void PlayState::OnExit()
 {
-	m_MyManager->Send("end");
 	for (auto it = m_gameObjects.begin(); it != m_gameObjects.end(); it++)
 	{
 		delete (*it);
 	}
 	if (m_Player->CheckWin()) { m_Win = true; }
 	m_gameObjects.clear();
-	delete m_image;
 	m_MyManager->CloseSocket();
 	m_MyManager->ShutDown();
-	delete m_Player;
-	delete m_MyManager;
 }

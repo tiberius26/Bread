@@ -2,6 +2,7 @@
 #include <array>
 #include "Bread.h"
 #include "Sprite.h"
+#include <memory>
 class Player
 {
 public:
@@ -38,14 +39,14 @@ private:
 	bool m_HaveWon = false;
 	bool m_MyTurn = false;
 	bool m_GuessPlaced = false;
-	std::array<Bread, 10> m_BreadArray;
-	std::array<Bread, 10> m_EnemyBreadArray;
+	std::array<std::shared_ptr<Bread>, 10> m_BreadArray;
+	std::array<std::shared_ptr<Bread>, 10> m_EnemyBreadArray;
 	std::array<bool, 10> m_BreadTracker = { false, false, false, false, false, false, false, false, false, false};
 	int m_BreadCount = 0;
 	std::string m_Identity;
-	Sprite m_Indicator;
+	std::shared_ptr <Sprite> m_Indicator;
 	int m_IndicatorX = 0, m_IndicatorY = 0;
-	Sprite m_EnemyIndicator;
+	std::shared_ptr <Sprite> m_EnemyIndicator;
 	int m_EnemyIndicatorX = 0, m_EnemyIndicatorY = 0;
 };
 

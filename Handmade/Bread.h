@@ -2,6 +2,7 @@
 #include <array>
 #include "Sprite.h"
 #include "AABB.h"
+#include <memory>
 
 class Bread
 {
@@ -24,9 +25,8 @@ private:
 	int m_PositionX = 0;
 	int m_PositionY = 0;
 	bool m_Marked = false;
-
-	Sprite m_NormalSkin; //skin when bread is not made
-	Sprite m_MarkedSkin; //skin when bread is made
-	AABB m_Collision;
+	std::shared_ptr<Sprite> m_NormalSkin; //skin when bread is not made
+	std::shared_ptr<Sprite> m_MarkedSkin; //skin when bread is made
+	std::shared_ptr<AABB>  m_Collision;
 };
 

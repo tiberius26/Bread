@@ -4,14 +4,14 @@ void Player::IncreaseBread(int index)
 {
     if (index < 11 && index > 0) 
     {
-        m_BreadArray[index - 1].IncrementCounter();
+        m_BreadArray[index - 1]->IncrementCounter();
     }
 }
 void Player::IncreaseEnemyBread(int index)
 {
     if (index < 11 && index > 0)
     {
-        m_EnemyBreadArray[index - 1].IncrementCounter();
+        m_EnemyBreadArray[index - 1]->IncrementCounter();
     }
 }
 
@@ -19,18 +19,18 @@ void Player::Draw()
 {
     for (int i = 0; i < 10; i++)
     {
-        m_BreadArray[i].Draw();
-        m_EnemyBreadArray[i].Draw();
+        m_BreadArray[i]->Draw();
+        m_EnemyBreadArray[i]->Draw();
     }
-    m_Indicator.Draw(m_IndicatorX, m_IndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
-    m_EnemyIndicator.Draw(m_EnemyIndicatorX, m_EnemyIndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
+    m_Indicator->Draw(m_IndicatorX, m_IndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
+    m_EnemyIndicator->Draw(m_EnemyIndicatorX, m_EnemyIndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
 }
 
 void Player::UpdateCounter()
 {
     for (int i=0; i < 10; i++)
     {
-        if (m_BreadArray[i].GetMark()) { m_BreadTracker[i] = true; }
+        if (m_BreadArray[i]->GetMark()) { m_BreadTracker[i] = true; }
     }
 }
 
@@ -66,29 +66,32 @@ void Player::Initialize()
     m_MyTurn = false;
     for (int i = 0; i < 10; i++)
     {
-        m_BreadArray[i].Initialize();
-        m_BreadArray[i].UpdataData( 100*(i+1), 100,i+1);
-        m_EnemyBreadArray[i].Initialize();
-        m_EnemyBreadArray[i].UpdataData(100 * (i + 1), 600, i + 1);
+        m_BreadArray[i] = std::make_shared<Bread>();
+        m_BreadArray[i]->Initialize();
+        m_BreadArray[i]->UpdataData( 100*(i+1), 100,i+1);
+        m_EnemyBreadArray[i] = std::make_shared<Bread>();
+        m_EnemyBreadArray[i]->Initialize();
+        m_EnemyBreadArray[i]->UpdataData(100 * (i + 1), 600, i + 1);
     }
     for (int i = 0; i < 10; i++)
     {
         m_BreadTracker[i] = false;
     }
+    m_Indicator = std::make_shared<Sprite>();
+    m_Indicator->Load("Assets/Images/Indicator.png", "Indicator");
+    m_Indicator->SetImage("Indicator");
+    m_Indicator->Disable();
+    m_Indicator->SetSpriteDimension(32, 32);
+    m_Indicator->SetImageDimension(1, 1, 32, 32);
+    m_Indicator->SetImageCel(1, 1);
 
-    m_Indicator.Load("Assets/Images/Indicator.png", "Indicator");
-    m_Indicator.SetImage("Indicator");
-    m_Indicator.Disable();
-    m_Indicator.SetSpriteDimension(32, 32);
-    m_Indicator.SetImageDimension(1, 1, 32, 32);
-    m_Indicator.SetImageCel(1, 1);
-
-    m_EnemyIndicator.Load("Assets/Images/Indicator2.png", "EnemyIndicator");
-    m_EnemyIndicator.SetImage("EnemyIndicator");
-    m_EnemyIndicator.Disable();
-    m_EnemyIndicator.SetSpriteDimension(32, 32);
-    m_EnemyIndicator.SetImageDimension(1, 1, 32, 32);
-    m_EnemyIndicator.SetImageCel(1, 1);
+    m_EnemyIndicator = std::make_shared<Sprite>();
+    m_EnemyIndicator->Load("Assets/Images/Indicator2.png", "EnemyIndicator");
+    m_EnemyIndicator->SetImage("EnemyIndicator");
+    m_EnemyIndicator->Disable();
+    m_EnemyIndicator->SetSpriteDimension(32, 32);
+    m_EnemyIndicator->SetImageDimension(1, 1, 32, 32);
+    m_EnemyIndicator->SetImageCel(1, 1);
 }
 
 void Player::PressedNumber(int number)
@@ -112,16 +115,16 @@ void Player::PlaceIndicator(int x, int y, bool OnOff)
 {
     m_IndicatorX = x;
     m_IndicatorY = y;
-    if (OnOff) { m_Indicator.Enable(); }
-    else { m_Indicator.Disable(); }
+    if (OnOff) { m_Indicator->Enable(); }
+    else { m_Indicator->Disable(); }
 }
 
 void Player::PlaceEnemyIndicator(int x, int y, bool OnOff)
 {
     m_EnemyIndicatorX = x;
     m_EnemyIndicatorY = y;
-    if (OnOff) { m_EnemyIndicator.Enable(); }
-    else { m_EnemyIndicator.Disable(); }
+    if (OnOff) { m_EnemyIndicator->Enable(); }
+    else { m_EnemyIndicator->Disable(); }
 }
 
 std::string Player::GetMessageToSend()

@@ -2,6 +2,7 @@
 #include <string>
 #include <SDL_net.h>
 #include "Debug.h"
+#include <memory>
 //#include "TTools.h"
 
 class TCPManager
@@ -29,7 +30,8 @@ private:
 	const int C_BUFFER = 2000;
 
 	//Pointers:
-	Debug* Debugger;
+	//Debug* Debugger;
+	std::shared_ptr<Debug> Debugger;
 
 };
 

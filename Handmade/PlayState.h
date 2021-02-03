@@ -52,13 +52,14 @@ public:
 private:
 
 	void ServerMessageRecieving();
-	Background* m_image;
+	std::shared_ptr <Background> m_image;
 	std::vector<GameObject*> m_gameObjects;
-	TCPManager* m_MyManager;
+	std::shared_ptr <TCPManager> m_MyManager;
 	std::string m_ServerMessage;
 	std::thread m_RecievingThread;
 
-	Player* m_Player = nullptr;
+	std::shared_ptr<Player> m_Player;
+	//Player* m_Player = nullptr;
 	bool m_MyTurnToGuess = false;
 
 	bool IsNumber(const std::string& StringToCheck);

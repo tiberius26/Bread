@@ -3,7 +3,7 @@
 //Setting SDL and TTools up
 bool TCPManager::Initialize(const char* IP, int port) //IP can be found and edited in Data/Options.ini
 {
-	Debugger = new Debug;
+	Debugger = std::make_shared<Debug>();
 	if (SDLNet_Init() == -1)
 	{
 		Debugger->Log("SDLNet could not initialize", Debug::ErrorCode::FAILURE);
@@ -46,13 +46,16 @@ bool TCPManager::Send(const std::string& message)
 //for receiving messages
 bool TCPManager::Receive(std::string& message)
 {
-	char RecievedMessage[2000] = { '\0' };
-	if (SDLNet_TCP_Recv(m_Socket, RecievedMessage, C_BUFFER) <= 0) //is the retun value is < length of message it failled/ there's an error
+	if (message != "end") 
 	{
-		Debugger->Log("Error recieveing message", Debug::ErrorCode::WARNING);
-		return false;
+		char RecievedMessage[2000] = { '\0' };
+		if (SDLNet_TCP_Recv(m_Socket, RecievedMessage, C_BUFFER) <= 0) //is the retun value is < length of message it failled/ there's an error
+		{
+			Debugger->Log("Error recieveing message", Debug::ErrorCode::WARNING);
+			return false;
+		}
+		else { message = RecievedMessage; }
 	}
-	else { message = RecievedMessage; }
 	return true;
 }
 
@@ -66,7 +69,6 @@ void TCPManager::CloseSocket()
 void TCPManager::ShutDown()
 {
 	SDLNet_Quit();
-	delete Debugger;
 }
 
 //constructer
