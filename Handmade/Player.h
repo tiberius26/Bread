@@ -30,6 +30,7 @@ public:
 	bool CheckGuessPlaced() { return m_GuessPlaced; }
 	void PlaceIndicator(int x, int y, bool OnOff);
 	void PlaceEnemyIndicator(int x, int y, bool OnOff);
+	std::string GetMessageToSend();
 	
 private:
 	int m_Guess = 0;

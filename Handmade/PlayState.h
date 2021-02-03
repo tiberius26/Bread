@@ -63,6 +63,10 @@ private:
 
 	bool IsNumber(const std::string& StringToCheck);
 	bool m_SecretNumberRecieved;
+	std::string m_Message;
+	std::string m_WhoSentIt;
+	bool m_IsPlayerAssigned;
+	const int IDSIZE = 5;
 };
 
 #endif

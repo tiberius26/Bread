@@ -12,6 +12,7 @@ PlayState::PlayState()
 	m_Player = nullptr;
 	m_MyTurnToGuess = false;
 	m_SecretNumberRecieved = false;
+	m_IsPlayerAssigned = false;
 }
 //======================================================================================================
 bool PlayState::OnEnter()
@@ -73,89 +74,110 @@ GameState* PlayState::Update(int deltaTime)
 	}
 
 
-
-
-	auto LineSplitter = m_ServerMessage.find("=");
-	std::string WhoSentIt = m_ServerMessage.substr(0, LineSplitter);
-	std::string Message = m_ServerMessage.substr(LineSplitter + 1, m_ServerMessage.size() - (LineSplitter + 1));
-
-	if (Message == "User1") 
+	
+	std::string::size_type EqualFind = m_ServerMessage.find("=");
+	std::string::size_type CollomFind = m_ServerMessage.find(":");
+	std::string WhoItWasSentTo = m_ServerMessage.substr(0, EqualFind);
+	if (CollomFind != std::string::npos) 
 	{
-		m_Player->SetIdentity("User1");
-		m_MyTurnToGuess = true;
+		m_WhoSentIt = m_ServerMessage.substr(EqualFind + 1, IDSIZE); // 5 = length of user1/user2 name
 	}
-	else { m_Player->SetIdentity("User2"); m_MyTurnToGuess = false;}
 
-	//logic for getting player 1
-	if (m_Player->GetIdentity() == "User1") 
+	if (!m_IsPlayerAssigned)
 	{
-		if (WhoSentIt == "User2") 
+		m_Message = m_ServerMessage.substr(EqualFind + 1, m_ServerMessage.size() - (EqualFind + 1));
+		if (m_Message == "User1")
 		{
-			m_Player->SetSecretNumber(stoi(Message));
-			m_SecretNumberRecieved = true;
-			m_Player->PlaceEnemyIndicator(1100, 600, true);
+			m_Player->SetIdentity("User1");
+			m_MyTurnToGuess = true;
+			m_IsPlayerAssigned = true;
 		}
-	}//logic for getting player 2
-	else 
-	{
-		if (WhoSentIt == "User1")
+		else if (m_Message == "User2")
 		{
-			m_Player->SetSecretNumber(stoi(Message));
-			m_SecretNumberRecieved = true;
-			m_Player->PlaceEnemyIndicator(1100, 600, true);
+			m_Player->SetIdentity("User2"); 
+			m_MyTurnToGuess = false;
+			m_IsPlayerAssigned = true;
 		}
-	}
-	if (Input::Instance()->IsKeyPressed(HM_KEY_1)) { m_Player->PressedNumber(1); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_2)) { m_Player->PressedNumber(2); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_3)) { m_Player->PressedNumber(3); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_4)) { m_Player->PressedNumber(4); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_5)) { m_Player->PressedNumber(5); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_6)) { m_Player->PressedNumber(6); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_7)) { m_Player->PressedNumber(7); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_8)) { m_Player->PressedNumber(8); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_9)) { m_Player->PressedNumber(9); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	if (Input::Instance()->IsKeyPressed(HM_KEY_0)) { m_Player->PressedNumber(0); m_MyManager->Send(std::to_string(m_Player->GetGuess())); }
-	//turn
-	if (m_MyTurnToGuess)
-	{
-		if (m_Player->CheckGuessPlaced() && m_SecretNumberRecieved)
-		{
-			if (m_Player->GetGuess() == m_Player->GetSecretNumber())
-			{
-				m_Player->IncreaseBread(m_Player->GetSecretNumber());
-				m_Player->ResetTurn();
-				m_MyTurnToGuess = false;
-				m_SecretNumberRecieved = false;
-			}
-			else 
-			{
-				m_Player->IncreaseEnemyBread(m_Player->GetSecretNumber());
-				m_Player->ResetTurn();
-				m_MyTurnToGuess = false;
-				m_SecretNumberRecieved = false;
-			}
-		}
+		
 	}
 	else 
 	{
-		if (m_Player->CheckGuessPlaced() && m_SecretNumberRecieved)
+		m_Message = m_ServerMessage.substr(CollomFind + 1, m_ServerMessage.size() - (CollomFind + 1));
+		//logic for getting player 1 recieved messages
+		if (m_Player->GetIdentity() == "User1" && m_WhoSentIt == "User2")
 		{
-			if (m_Player->GetGuess() == m_Player->GetSecretNumber())
+			if (IsNumber(m_Message))
 			{
-				m_Player->ResetTurn();
-				m_Player->IncreaseEnemyBread(m_Player->GetSecretNumber());
-				m_MyTurnToGuess = true;
-				m_SecretNumberRecieved = false;
+				m_Player->SetSecretNumber(stoi(m_Message));
+				m_SecretNumberRecieved = true;
+				m_Player->PlaceEnemyIndicator(1100, 600, true);
 			}
-			else 
+		}//logic for getting player 2 recieved messages
+		else if (m_Player->GetIdentity() == "User2" && m_WhoSentIt == "User1")
+		{
+			if (IsNumber(m_Message))
 			{
-				m_Player->IncreaseBread(m_Player->GetSecretNumber());
-				m_Player->ResetTurn();
-				m_MyTurnToGuess = false;
-				m_SecretNumberRecieved = false;
+				m_Player->SetSecretNumber(stoi(m_Message));
+				m_SecretNumberRecieved = true;
+				m_Player->PlaceEnemyIndicator(1100, 600, true);
+			}
+		}
+		if (Input::Instance()->IsKeyPressed(HM_KEY_1)) { m_Player->PressedNumber(1); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_2)) { m_Player->PressedNumber(2); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_3)) { m_Player->PressedNumber(3); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_4)) { m_Player->PressedNumber(4); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_5)) { m_Player->PressedNumber(5); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_6)) { m_Player->PressedNumber(6); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_7)) { m_Player->PressedNumber(7); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_8)) { m_Player->PressedNumber(8); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_9)) { m_Player->PressedNumber(9); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		if (Input::Instance()->IsKeyPressed(HM_KEY_0)) { m_Player->PressedNumber(0); m_MyManager->Send(m_Player->GetMessageToSend()); }
+		//turn
+		if (m_MyTurnToGuess)
+		{
+			if (m_Player->CheckGuessPlaced() && m_SecretNumberRecieved)
+			{
+				if (m_Player->GetGuess() == m_Player->GetSecretNumber())
+				{
+					m_Player->IncreaseBread(m_Player->GetSecretNumber());
+					m_Player->ResetTurn();
+					m_MyTurnToGuess = false;
+					m_SecretNumberRecieved = false;
+				}
+				else
+				{
+					m_Player->IncreaseEnemyBread(m_Player->GetSecretNumber());
+					m_Player->ResetTurn();
+					m_MyTurnToGuess = false;
+					m_SecretNumberRecieved = false;
+				}
+			}
+		}
+		else if (!m_MyTurnToGuess)
+		{
+			if (m_Player->CheckGuessPlaced() && m_SecretNumberRecieved)
+			{
+				if (m_Player->GetGuess() == m_Player->GetSecretNumber())
+				{
+					m_Player->ResetTurn();
+					m_Player->IncreaseEnemyBread(m_Player->GetSecretNumber());
+					m_MyTurnToGuess = true;
+					m_SecretNumberRecieved = false;
+				}
+				else
+				{
+					m_Player->IncreaseBread(m_Player->GetSecretNumber());
+					m_Player->ResetTurn();
+					m_MyTurnToGuess = false;
+					m_SecretNumberRecieved = false;
+				}
 			}
 		}
 	}
+
+
+
+
 
 	for (auto it = m_gameObjects.begin(); it != m_gameObjects.end(); it++)
 	{
@@ -185,6 +207,7 @@ bool PlayState::Draw()
 //======================================================================================================
 void PlayState::OnExit()
 {
+	m_MyManager->Send("end");
 	for (auto it = m_gameObjects.begin(); it != m_gameObjects.end(); it++)
 	{
 		delete (*it);

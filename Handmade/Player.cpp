@@ -2,11 +2,17 @@
 
 void Player::IncreaseBread(int index)
 {
-    m_BreadArray[index - 1].IncrementCounter();
+    if (index < 11 && index > 0) 
+    {
+        m_BreadArray[index - 1].IncrementCounter();
+    }
 }
 void Player::IncreaseEnemyBread(int index)
 {
-    m_EnemyBreadArray[index - 1].IncrementCounter();
+    if (index < 11 && index > 0)
+    {
+        m_EnemyBreadArray[index - 1].IncrementCounter();
+    }
 }
 
 void Player::Draw()
@@ -76,6 +82,13 @@ void Player::Initialize()
     m_Indicator.SetSpriteDimension(32, 32);
     m_Indicator.SetImageDimension(1, 1, 32, 32);
     m_Indicator.SetImageCel(1, 1);
+
+    m_EnemyIndicator.Load("Assets/Images/Indicator2.png", "EnemyIndicator");
+    m_EnemyIndicator.SetImage("EnemyIndicator");
+    m_EnemyIndicator.Disable();
+    m_EnemyIndicator.SetSpriteDimension(32, 32);
+    m_EnemyIndicator.SetImageDimension(1, 1, 32, 32);
+    m_EnemyIndicator.SetImageCel(1, 1);
 }
 
 void Player::PressedNumber(int number)
@@ -109,4 +122,10 @@ void Player::PlaceEnemyIndicator(int x, int y, bool OnOff)
     m_EnemyIndicatorY = y;
     if (OnOff) { m_EnemyIndicator.Enable(); }
     else { m_EnemyIndicator.Disable(); }
+}
+
+std::string Player::GetMessageToSend()
+{
+    std::string TempString = m_Identity + ":" + std::to_string(m_Guess);
+    return TempString;
 }
