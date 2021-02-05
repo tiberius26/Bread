@@ -15,6 +15,7 @@ PlayState::PlayState()
 	m_IsPlayerAssigned = false;
 	m_AmListeningForKeys = true;
 	m_IsSoundMuted = false;
+	m_GameEnded = false;
 	m_AmDrawingRound = true; // bool to see if the round loss/win image is drawn
 	m_DrawStart = time(0);
 }
@@ -99,6 +100,7 @@ GameState* PlayState::Update(int deltaTime)
 	if (m_ServerMessage == "end")
 	{
 		m_MyManager->Send("end");
+		m_GameEnded = true;
 		//std::cout << "Hit"<<std::endl;
 		m_image->StopMusic();
 		return new EndState;
@@ -121,16 +123,18 @@ GameState* PlayState::Update(int deltaTime)
 	}
 	if (Input::Instance()->IsKeyPressed(HM_KEY_Q))
 	{
+		m_GameEnded = true;
 		m_image->StopMusic();
 		m_MyManager->Send("end");
 		m_ServerMessage = "end";
-		return new EndState;
+		//return new EndState;
 	}
 
 
 
 	if (m_Player->CheckWin())
 	{
+		m_GameEnded = true;
 		SetWin(true);
 		m_image->StopMusic();
 		m_MyManager->Send("end");
@@ -254,6 +258,11 @@ GameState* PlayState::Update(int deltaTime)
 		m_ServerMessage = "end";
 		m_MyManager->Send(m_ServerMessage);
 		//std::cout << "Hit"<<std::endl;
+		m_image->StopMusic();
+		return new EndState;
+	}
+	if (m_GameEnded) 
+	{
 		m_image->StopMusic();
 		return new EndState;
 	}

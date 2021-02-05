@@ -83,7 +83,7 @@ private:
 
 	time_t m_DrawStart;
 	double m_SecondsSinceDrawStarted;
-
+	bool m_GameEnded;
 	void EnableWin();
 	void EnableLoss();
 };
