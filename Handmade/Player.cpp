@@ -2,14 +2,14 @@
 
 void Player::IncreaseBread(int index)
 {
-    if (index < 11 && index > 0) 
+    if (index < 12 && index > 0) 
     {
         m_BreadArray[index - 1]->IncrementCounter();
     }
 }
 void Player::IncreaseEnemyBread(int index)
 {
-    if (index < 11 && index > 0)
+    if (index < 12 && index > 0)
     {
         m_EnemyBreadArray[index - 1]->IncrementCounter();
     }
@@ -34,19 +34,12 @@ void Player::UpdateCounter()
     }
 }
 
-
-bool Player::CheckCounter(int ElementToCheck)
-{
-    if (m_BreadTracker[ElementToCheck]) { return true; }
-    return false;
-}
-
 void Player::UpdateBreadCount()
 {
     m_BreadCount = 0;
-    for (bool i : m_BreadTracker) 
+    for (int i = 0; i < 10; i++) 
     {
-        if (i) { m_BreadCount++; }
+        if (m_BreadTracker[i]) { m_BreadCount++; }
     }
     if (m_BreadCount > 8) { m_HaveWon = true; }
 }
@@ -63,7 +56,6 @@ void Player::Initialize()
     m_SecretNumber = 0;
     m_BreadCount = 0;
     m_HaveWon = false;
-    m_MyTurn = false;
     for (int i = 0; i < 10; i++)
     {
         m_BreadArray[i] = std::make_shared<Bread>();

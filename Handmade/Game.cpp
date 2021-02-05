@@ -54,6 +54,7 @@ bool Game::Run()
 
 		if (nextState != m_gameState)
 		{
+			if (m_gameState->GetWin()) { nextState->SetWin(true); }
 			m_gameState->OnExit();
 			delete m_gameState;
 			m_gameState = nextState;

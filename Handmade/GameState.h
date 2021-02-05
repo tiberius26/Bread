@@ -41,7 +41,9 @@ public:
 	virtual GameState* Update(int deltaTime) = 0;
 	virtual bool Draw() = 0;
 	virtual void OnExit() = 0;
-
+	bool GetWin() { return m_Win; }
+	void SetWin(bool setter) { m_Win = setter; }
+protected:
 	bool m_Win = false;
 };
 

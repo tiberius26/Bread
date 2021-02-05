@@ -1,6 +1,6 @@
 #include "EndState.h"
 #include "PlayState.h"
-
+#include "Input.h"
 //======================================================================================================
 EndState::EndState()
 {
@@ -11,13 +11,13 @@ EndState::EndState()
 bool EndState::OnEnter()
 {
 	m_menu = new MainMenu;
-	if (m_Win) 
+	if (GetWin())
 	{
 		m_image = new Background("Assets/Images/Win.jpg", "Assets/Music/Glory.ogg");
 	}
 	else 
 	{
-		m_image = new Background("Assets/Images/GameOver.jpg", "Assets/Music/Glory.ogg");
+		m_image = new Background("Assets/Images/GameOver.jpg", "Assets/Music/Sad.ogg");
 
 	}
 	m_menu->SetMenuText("Quit game");
@@ -34,7 +34,11 @@ GameState* EndState::Update(int deltaTime)
 		m_image->StopMusic();
 		return nullptr;
 	}
-
+	if(Input::Instance()->IsKeyPressed(HM_KEY_RETURN))
+	{
+		m_image->StopMusic();
+		return nullptr;
+	}
 	return this;
 }
 //======================================================================================================

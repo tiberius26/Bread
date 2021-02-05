@@ -26,7 +26,7 @@
 #===============================================================================================#
 | 'PlayState' source files last updated on 11 August 2020						                |
 #==============================================================================================*/
-
+#pragma once
 #include <vector>
 #include "Background.h"
 #include "GameObject.h"
@@ -34,6 +34,9 @@
 #include "TCPManager.h"
 #include <thread>
 #include "Player.h"
+#include "Sprite.h"
+#include <time.h>
+
 class PlayState : public GameState
 {
 
@@ -49,8 +52,10 @@ public:
 	virtual bool Draw();
 	virtual void OnExit();
 
+
 private:
 
+	void CheckInput();
 	void ServerMessageRecieving();
 	std::shared_ptr <Background> m_image;
 	std::vector<GameObject*> m_gameObjects;
@@ -68,6 +73,19 @@ private:
 	std::string m_WhoSentIt;
 	bool m_IsPlayerAssigned;
 	const int IDSIZE = 5;
+	bool m_AmListeningForKeys;
+	bool m_AmDrawingRound;
+	bool m_IsSoundMuted;
+	std::shared_ptr<Sprite> m_RoundWin;
+	std::shared_ptr<Sprite> m_RoundLoss;
+	std::shared_ptr<Sprite> m_MyTurn;
+	std::shared_ptr<Sprite> m_EnemyTurn;
+
+	time_t m_DrawStart;
+	double m_SecondsSinceDrawStarted;
+
+	void EnableWin();
+	void EnableLoss();
 };
 
 #endif

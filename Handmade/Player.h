@@ -8,8 +8,8 @@ class Player
 public:
 	int GetGuess() { return m_Guess; };
 	int GetGuess()const { return m_Guess; };
-	int GetSecretNumber() { return m_Guess; };
-	int GetSecretNumber()const { return m_Guess; };
+	int GetSecretNumber() { return m_SecretNumber; };
+	int GetSecretNumber()const { return m_SecretNumber; };
 
 	void SetGuess(int guess) { m_Guess = guess; };
 	void SetSecretNumber(int secretnumber) { m_SecretNumber = secretnumber; };
@@ -19,7 +19,6 @@ public:
 	void Draw();
 
 	void UpdateCounter();
-	bool CheckCounter(int ElementToCheck);
 	void UpdateBreadCount();
 	bool CheckWin();
 	void Initialize();
@@ -37,7 +36,6 @@ private:
 	int m_Guess = 0;
 	int m_SecretNumber = 0;
 	bool m_HaveWon = false;
-	bool m_MyTurn = false;
 	bool m_GuessPlaced = false;
 	std::array<std::shared_ptr<Bread>, 10> m_BreadArray;
 	std::array<std::shared_ptr<Bread>, 10> m_EnemyBreadArray;

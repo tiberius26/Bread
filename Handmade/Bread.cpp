@@ -16,13 +16,13 @@ void Bread::IncrementCounter()
 
 void Bread::Draw()
 {
-
 	if (m_Marked) 
 	{
 		m_MarkedSkin->Draw(m_PositionX, m_PositionY, 0.0, Sprite::FlipType::NO_FLIP);
 	}
 	else 
 	{
+
 		m_NormalSkin->Draw(m_PositionX, m_PositionY, 0.0, Sprite::FlipType::NO_FLIP);
 	}
 }
@@ -46,11 +46,11 @@ void Bread::Initialize()
 
 	m_MarkedSkin = std::make_shared<Sprite>();
 	m_MarkedSkin->Load("Assets/Images/Mark.png", "BreadMark");
-	m_NormalSkin->SetImage("BreadMark");
-	m_MarkedSkin->Disable();
+	m_MarkedSkin->SetImage("BreadMark");
+	m_MarkedSkin->Enable();
 	m_MarkedSkin->SetSpriteDimension(32,32);
-	m_NormalSkin->SetImageDimension(1, 1, 32, 32);
-	m_NormalSkin->SetImageCel(1, 1);
+	m_MarkedSkin->SetImageDimension(1, 1, 32, 32);
+	m_MarkedSkin->SetImageCel(1, 1);
 
 	m_Collision = std::make_shared<AABB>();
 	m_Collision->Enable();
