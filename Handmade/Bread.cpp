@@ -4,19 +4,19 @@
 void Bread::IncrementCounter()
 {
 	m_Counter++;
+
 	if (m_Counter > 2) 
 	{
 		m_Marked = true;
-		m_NormalSkin->Disable();
-		m_MarkedSkin->Enable();
-		m_Collision->Disable();
+		m_NormalSkin->Disable(); //disables and enable were made for safety
+		m_MarkedSkin->Enable();  
 	}
 }
 
 
 void Bread::Draw()
 {
-	if (m_Marked) 
+	if (m_Marked) //draw depending on bool, see above
 	{
 		m_MarkedSkin->Draw(m_PositionX, m_PositionY, 0.0, Sprite::FlipType::NO_FLIP);
 	}
@@ -29,13 +29,14 @@ void Bread::Draw()
 
 void Bread::Initialize()
 {
-	m_Counter = 0;
-	m_Identity = 0;
-
-	m_Marked = false;
 	m_PositionX = 0;
 	m_PositionY = 0;
+	m_Identity = 0;
+	m_Counter = 0;
 
+	m_Marked = false;
+
+	//number Sprite
 	m_NormalSkin = std::make_shared<Sprite>();
 	m_NormalSkin->Load("Assets/Images/0.png", "0");
 	m_NormalSkin->SetImage("0");
@@ -44,6 +45,7 @@ void Bread::Initialize()
 	m_NormalSkin->SetImageDimension(1, 1, 32, 32);
 	m_NormalSkin->SetImageCel(1, 1);
 
+	//bread sprite
 	m_MarkedSkin = std::make_shared<Sprite>();
 	m_MarkedSkin->Load("Assets/Images/Mark.png", "BreadMark");
 	m_MarkedSkin->SetImage("BreadMark");
@@ -51,25 +53,24 @@ void Bread::Initialize()
 	m_MarkedSkin->SetSpriteDimension(32,32);
 	m_MarkedSkin->SetImageDimension(1, 1, 32, 32);
 	m_MarkedSkin->SetImageCel(1, 1);
-
-	m_Collision = std::make_shared<AABB>();
-	m_Collision->Enable();
-	m_Collision->SetDimension(32, 32);
-	m_Collision->SetPosition(m_PositionX, m_PositionY);
-	m_Collision->Update();
 }
 
 
 void Bread::UpdataData(int X, int Y, int BreadIdentity)
 {
+	//setting values
 	m_PositionX = X;
 	m_PositionY = Y;
+
 	m_Identity = BreadIdentity;
+
+	//creating a string (char array) for a location
 	char TempString[100];
-	sprintf_s(TempString, "Assets/Images/%i.png", BreadIdentity);
+	sprintf_s(TempString, "Assets/Images/%i.png", BreadIdentity); // to Adapt to the identity
+
+	//setting sprite
 	m_NormalSkin->Load(TempString, std::to_string(BreadIdentity));
 	m_NormalSkin->SetImage(std::to_string(BreadIdentity));
-	m_Collision->SetPosition(m_PositionX, m_PositionY);
 }
 
 void Bread::Unload()

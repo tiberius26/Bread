@@ -7,6 +7,7 @@ void Player::IncreaseBread(int index)
         m_BreadArray[index - 1]->IncrementCounter();
     }
 }
+
 void Player::IncreaseEnemyBread(int index)
 {
     if (index < 12 && index > 0)
@@ -19,11 +20,12 @@ void Player::Draw()
 {
     for (int i = 0; i < 10; i++)
     {
-        m_BreadArray[i]->Draw();
         m_EnemyBreadArray[i]->Draw();
+        m_BreadArray[i]->Draw();
     }
-    m_Indicator->Draw(m_IndicatorX, m_IndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
+
     m_EnemyIndicator->Draw(m_EnemyIndicatorX, m_EnemyIndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
+    m_Indicator->Draw(m_IndicatorX, m_IndicatorY, 0.0, Sprite::FlipType::NO_FLIP);
 }
 
 void Player::UpdateCounter()
@@ -52,10 +54,13 @@ bool Player::CheckWin()
 
 void Player::Initialize()
 {
+    //values
     m_Guess = 0;
     m_SecretNumber = 0;
     m_BreadCount = 0;
     m_HaveWon = false;
+
+    //Own and Enemy Arrays
     for (int i = 0; i < 10; i++)
     {
         m_BreadArray[i] = std::make_shared<Bread>();
@@ -65,10 +70,14 @@ void Player::Initialize()
         m_EnemyBreadArray[i]->Initialize();
         m_EnemyBreadArray[i]->UpdataData(100 * (i + 1), 600, i + 1);
     }
+
+    //bool array
     for (int i = 0; i < 10; i++)
     {
         m_BreadTracker[i] = false;
     }
+
+    //red indicator
     m_Indicator = std::make_shared<Sprite>();
     m_Indicator->Load("Assets/Images/Indicator.png", "Indicator");
     m_Indicator->SetImage("Indicator");
@@ -77,6 +86,7 @@ void Player::Initialize()
     m_Indicator->SetImageDimension(1, 1, 32, 32);
     m_Indicator->SetImageCel(1, 1);
 
+    //green indicator
     m_EnemyIndicator = std::make_shared<Sprite>();
     m_EnemyIndicator->Load("Assets/Images/Indicator2.png", "EnemyIndicator");
     m_EnemyIndicator->SetImage("EnemyIndicator");
@@ -96,8 +106,8 @@ void Player::PressedNumber(int number)
 void Player::ResetTurn()
 {
     m_Guess = 99; //random valued, different to avoid errors
-    m_SecretNumber = 100;
     m_BreadCount = 0;
+    m_SecretNumber = 100;
     m_GuessPlaced = false;
     PlaceIndicator(1100, 600, false);
     PlaceEnemyIndicator(1100, 600, false);
@@ -117,6 +127,22 @@ void Player::PlaceEnemyIndicator(int x, int y, bool OnOff)
     m_EnemyIndicatorY = y;
     if (OnOff) { m_EnemyIndicator->Enable(); }
     else { m_EnemyIndicator->Disable(); }
+}
+
+Player::Player()
+{
+    m_BreadTracker = { false, false, false, false, false, false, false, false, false, false };
+
+    m_EnemyIndicatorX = 0;
+    m_EnemyIndicatorY = 0;
+    m_SecretNumber = 0;
+    m_BreadCount = 0;
+    m_IndicatorX = 0;
+    m_IndicatorY = 0;
+    m_Guess = 0;
+
+    m_GuessPlaced = false;
+    m_HaveWon = false;
 }
 
 std::string Player::GetMessageToSend()

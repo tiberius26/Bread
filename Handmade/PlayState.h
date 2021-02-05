@@ -36,6 +36,7 @@
 #include "Player.h"
 #include "Sprite.h"
 #include <time.h>
+#include "FileReader.h"
 
 class PlayState : public GameState
 {
@@ -69,6 +70,7 @@ private:
 
 	bool IsNumber(const std::string& StringToCheck);
 	bool m_SecretNumberRecieved;
+	bool m_RecievingMessages;
 	std::string m_Message;
 	std::string m_WhoSentIt;
 	bool m_IsPlayerAssigned;
@@ -81,11 +83,14 @@ private:
 	std::shared_ptr<Sprite> m_MyTurn;
 	std::shared_ptr<Sprite> m_EnemyTurn;
 
+	FileReader Reader;
 	time_t m_DrawStart;
 	double m_SecondsSinceDrawStarted;
 	bool m_GameEnded;
 	void EnableWin();
 	void EnableLoss();
+
+
 };
 
 #endif

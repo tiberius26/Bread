@@ -43,6 +43,9 @@
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{b13b4e0d-172a-4c24-9373-75db951e531f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{3f2387d6-a863-4f07-addf-bcdfb1b9e00e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="Bread.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp">
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Bread.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

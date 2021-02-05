@@ -6,45 +6,69 @@
 class Player
 {
 public:
-	int GetGuess() { return m_Guess; };
-	int GetGuess()const { return m_Guess; };
-	int GetSecretNumber() { return m_SecretNumber; };
-	int GetSecretNumber()const { return m_SecretNumber; };
+	Player();
 
+	//getters
+	int GetGuess() { return m_Guess; };
+	int GetSecretNumber() { return m_SecretNumber; };
+
+	std::string GetMessageToSend();// prepares the message for sending before returning it
+
+	//setters
 	void SetGuess(int guess) { m_Guess = guess; };
 	void SetSecretNumber(int secretnumber) { m_SecretNumber = secretnumber; };
 
+	bool CheckWin();
+
+	//increments
 	void IncreaseBread(int index);
 	void IncreaseEnemyBread(int index);
+
+	//general void functions
+	void PlaceEnemyIndicator(int x, int y, bool OnOff);  //indicators for enemy decision
+	void PlaceIndicator(int x, int y, bool OnOff); //indicators for player decision
+	void PressedNumber(int number); //called when an input is made
+	void UpdateBreadCount(); // updates a tracker
+	void UpdateCounter(); // updates an array
+	void Initialize();
+	void ResetTurn();
 	void Draw();
 
-	void UpdateCounter();
-	void UpdateBreadCount();
-	bool CheckWin();
-	void Initialize();
-	void PressedNumber(int number);
+	//inline setters
 	void SetIdentity(std::string Identity) { m_Identity = Identity; }
-	std::string GetIdentity() { return m_Identity; }
-	void ResetTurn();
 	void GuessPlaced() { m_GuessPlaced = true; }
+
+	//inline getters
 	bool CheckGuessPlaced() { return m_GuessPlaced; }
-	void PlaceIndicator(int x, int y, bool OnOff);
-	void PlaceEnemyIndicator(int x, int y, bool OnOff);
-	std::string GetMessageToSend();
+	std::string GetIdentity() { return m_Identity; }
+
 	
 private:
-	int m_Guess = 0;
-	int m_SecretNumber = 0;
-	bool m_HaveWon = false;
-	bool m_GuessPlaced = false;
-	std::array<std::shared_ptr<Bread>, 10> m_BreadArray;
+	//ints
+	int m_EnemyIndicatorX;
+	int m_EnemyIndicatorY;
+	int m_SecretNumber;
+	int m_BreadCount;
+	int m_IndicatorX;
+	int m_IndicatorY;
+	int m_Guess;
+
+	//bools
+	bool m_GuessPlaced;
+	bool m_HaveWon;
+
+	//bread pointer arrays
 	std::array<std::shared_ptr<Bread>, 10> m_EnemyBreadArray;
-	std::array<bool, 10> m_BreadTracker = { false, false, false, false, false, false, false, false, false, false};
-	int m_BreadCount = 0;
+	std::array<std::shared_ptr<Bread>, 10> m_BreadArray;
+
+	//bool arrays
+	std::array<bool, 10> m_BreadTracker;
+	
+	//strings
 	std::string m_Identity;
-	std::shared_ptr <Sprite> m_Indicator;
-	int m_IndicatorX = 0, m_IndicatorY = 0;
+
+	//sprite pointers
 	std::shared_ptr <Sprite> m_EnemyIndicator;
-	int m_EnemyIndicatorX = 0, m_EnemyIndicatorY = 0;
+	std::shared_ptr <Sprite> m_Indicator;
 };
 
