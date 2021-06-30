@@ -1,0 +1,44 @@
+Settup:
+step 1: Start Server.exe
+step 2: Start 2 Game.exe
+step 3: Press Enter on both games
+step 4 enjoy the game
+
+Menu Input:
+Up/Down arrows to move in the menu
+Enter to make a selection
+
+Game inputs:
+Q : closes the game, taking you to the game over screen
+M : turns sound off
+1 : places your guess/secret number as 1
+2 : places your guess/secret number as 2
+3 : places your guess/secret number as 3
+4 : places your guess/secret number as 4
+5 : places your guess/secret number as 5
+6 : places your guess/secret number as 6
+7 : places your guess/secret number as 7
+8 : places your guess/secret number as 8
+9 : places your guess/secret number as 9
+0 : places your guess/secret number as 10
+
+How to play:
+1 player is guessing 1 player is setting a number to guess
+"your turn" indicates that it is your turn to guess
+"enemy turn" indicates that it is the enemy's turn to guess
+
+after a number is pressed, a red indicator will be placed for you
+after the enemy places their number, a greenindicator will be placed for you to see
+
+After each round a message indicating the result of the round appears. DO NOT MAKE ANOTHER INPUT UNTIL THE MESSAGE DISSAPEARS
+
+after 3 points are achieved for any number, it will be replaced with the sprite of a bread
+the point of the game is to achieve 9 breads
+
+to get points you correctly guess the enemy's secret number, this gives you 1 point under that bread
+OR if you are setting the secret number, if the enemy gets is wrong, you gt a point under your secret number bread
+
+when a guess and a secret number are the same, the turns flip
+
+other:
+To change the IP the client connects to, go to Data/Options.ini

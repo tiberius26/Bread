@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatAppServer", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{31D4014F-D261-4C3D-858A-DB38748F3687}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Debug|x64.ActiveCfg = Debug|x64
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Debug|x64.Build.0 = Debug|x64
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Debug|x86.ActiveCfg = Debug|Win32
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Debug|x86.Build.0 = Debug|Win32
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Release|x64.ActiveCfg = Release|x64
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Release|x64.Build.0 = Release|x64
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Release|x86.ActiveCfg = Release|Win32
+		{31D4014F-D261-4C3D-858A-DB38748F3687}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3E39408-6E79-45A5-ADD5-530A0437997B}
+	EndGlobalSection
+EndGlobal
